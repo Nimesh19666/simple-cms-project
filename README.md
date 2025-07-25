@@ -9,7 +9,7 @@
 ### **1. Clone & Setup Backend (2 minutes)**
 
 ```bash
-git clone https://github.com/yourusername/simple-cms-project.git
+git clone https://github.com/Nimesh19666/simple-cms-project.git
 cd simple-cms-project/backend
 
 composer install
