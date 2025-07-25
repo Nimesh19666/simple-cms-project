@@ -1,0 +1,28 @@
+
+# Dependencies - NEVER upload these
+vendor/
+node_modules/
+
+# Environment files - NEVER upload these
+.env
+.env.local
+.env.*.local
+
+# Build outputs
+.next/
+/cms-frontend/.next/
+/cms-frontend/out/
+
+# Laravel specific
+/cms-api/storage/logs/
+/cms-api/bootstrap/cache/
+/cms-api/public/storage
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+
+# OS files
+.DS_Store
+Thumbs.db
