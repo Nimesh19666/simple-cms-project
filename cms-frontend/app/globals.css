@@ -14,7 +14,7 @@ input, textarea, select, button {
   border-radius: 5px;
   border: 1px solid #ddd;
   width: 100%;
-  box-sizing: border-box; /* Important for padding and width */
+  box-sizing: border-box; 
 }
 
 button {

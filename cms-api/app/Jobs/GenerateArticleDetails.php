@@ -1,6 +1,5 @@
 <?php
 
-// File: app/Jobs/GenerateArticleDetails.php - Enhanced with better error handling
 
 namespace App\Jobs;
 
@@ -18,8 +17,8 @@ class GenerateArticleDetails implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $tries = 3; // Retry up to 3 times
-    public $backoff = [10, 30, 60]; // Wait 10s, 30s, 60s between retries
+    public $tries = 3;
+    public $backoff = [10, 30, 60];
 
     public function __construct(public Article $article)
     {
@@ -68,7 +67,6 @@ class GenerateArticleDetails implements ShouldQueue
                 $data = $response->json();
                 $generatedSlug = $data['candidates'][0]['content']['parts'][0]['text'] ?? '';
 
-                // Clean and validate the slug
                 $slug = $this->cleanSlug($generatedSlug);
                 $uniqueSlug = $this->makeSlugUnique($slug);
 
@@ -111,10 +109,9 @@ class GenerateArticleDetails implements ShouldQueue
                 $data = $response->json();
                 $summary = $data['candidates'][0]['content']['parts'][0]['text'] ?? '';
 
-                // Clean the summary
                 $cleanSummary = trim(strip_tags($summary));
 
-                if (strlen($cleanSummary) > 10) { // Only update if we got a meaningful summary
+                if (strlen($cleanSummary) > 10) {
                     $this->article->update(['summary' => $cleanSummary]);
                     Log::info("Summary generated successfully for article: {$this->article->id}");
                 } else {
@@ -131,11 +128,9 @@ class GenerateArticleDetails implements ShouldQueue
 
     private function cleanSlug(string $slug): string
     {
-        // Remove quotes, extra spaces, and convert to proper slug format
         $slug = trim($slug, '"\'` ');
         $slug = Str::slug($slug);
 
-        // Ensure it's not too long
         return Str::limit($slug, 60, '');
     }
 
@@ -163,7 +158,6 @@ class GenerateArticleDetails implements ShouldQueue
 
     private function generateFallbackSummary(): void
     {
-        // Create a simple summary from first 2 sentences
         $sentences = preg_split('/[.!?]+/', $this->article->content);
         $firstSentences = array_slice($sentences, 0, 2);
         $summary = implode('. ', array_filter($firstSentences));

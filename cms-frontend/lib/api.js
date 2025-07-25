@@ -8,7 +8,6 @@ const api = axios.create({
     },
 });
 
-// Add token to requests if available
 api.interceptors.request.use((config) => {
     if (typeof window !== 'undefined') {
         const token = localStorage.getItem('auth_token');
@@ -19,7 +18,6 @@ api.interceptors.request.use((config) => {
     return config;
 });
 
-// Handle token expiration
 api.interceptors.response.use(
     (response) => response,
     (error) => {

@@ -1,4 +1,3 @@
-// File: app/components/CategoryManager.js
 
 'use client';
 
@@ -8,16 +7,14 @@ import api from '../../lib/api';
 export default function CategoryManager({ user }) {
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [formMode, setFormMode] = useState('create'); // 'create' or 'edit'
+    const [formMode, setFormMode] = useState('create'); 
     const [editingCategoryId, setEditingCategoryId] = useState(null);
     
-    // Form fields
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
 
-    // Only show if user is admin
     if (user?.role !== 'admin') {
         return null;
     }

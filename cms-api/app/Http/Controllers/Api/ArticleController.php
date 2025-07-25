@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Article;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Jobs\GenerateArticleDetails; // ← ADD THIS IMPORT
-use Illuminate\Support\Facades\Log;  // ← ADD THIS LINE
+use App\Jobs\GenerateArticleDetails;
+use Illuminate\Support\Facades\Log;
 
 
 class ArticleController extends Controller
@@ -16,7 +16,6 @@ class ArticleController extends Controller
     {
         $query = Article::with(['author:id,name', 'categories:id,name']);
 
-        // Apply filters
         if ($request->has('status') && $request->status !== '') {
             $query->where('status', $request->status);
         }
@@ -27,7 +26,6 @@ class ArticleController extends Controller
             });
         }
 
-        // Date filters
         if ($request->has('date_from') && $request->date_from !== '') {
             $query->whereDate('created_at', '>=', $request->date_from);
         }
@@ -36,7 +34,6 @@ class ArticleController extends Controller
             $query->whereDate('created_at', '<=', $request->date_to);
         }
 
-        // Authors can only see their own articles
         if ($request->user()->role === 'author') {
             $query->where('user_id', $request->user()->id);
         }
@@ -71,10 +68,8 @@ class ArticleController extends Controller
             $article->categories()->attach($validated['category_ids']);
         }
 
-        // 🚀 CRITICAL: Dispatch the AI job
         GenerateArticleDetails::dispatch($article);
 
-        // Log for debugging
         Log::info("Article created with ID: {$article->id}, AI job dispatched");
 
         return response()->json([
@@ -112,7 +107,6 @@ class ArticleController extends Controller
             $article->categories()->sync($validated['category_ids'] ?? []);
         }
 
-        // Re-run AI processing if title or content changed
         if ($request->has('content') || $request->has('title')) {
             GenerateArticleDetails::dispatch($article);
             Log::info("Article updated with ID: {$article->id}, AI job dispatched");

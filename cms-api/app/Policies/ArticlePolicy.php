@@ -24,7 +24,6 @@ class ArticlePolicy
      */
     public function update(User $user, Article $article): bool
     {
-        // Only the author of the article can update it.
         return $user->id === $article->user_id;
     }
 
@@ -33,7 +32,6 @@ class ArticlePolicy
      */
     public function delete(User $user, Article $article): bool
     {
-        // Only the author of the article can delete it.
         return $user->id === $article->user_id;
     }
 }

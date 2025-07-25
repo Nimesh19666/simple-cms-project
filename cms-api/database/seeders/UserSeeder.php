@@ -13,7 +13,6 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        // Admin User
         User::create([
             'name' => 'Admin User',
             'email' => 'admin@example.com',
@@ -21,7 +20,6 @@ class UserSeeder extends Seeder
             'role' => 'admin',
         ]);
 
-        // Author User
         User::create([
             'name' => 'Author User',
             'email' => 'author@example.com',

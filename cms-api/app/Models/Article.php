@@ -24,7 +24,6 @@ class Article extends Model
         'published_at' => 'datetime',
     ];
 
-    // Relationships
     public function author()
     {
         return $this->belongsTo(User::class, 'user_id');

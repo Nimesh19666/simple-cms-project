@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
-use App\Models\User; // ← Add this import
+use App\Models\User;
 
 class AuthController extends Controller
 {
@@ -22,7 +22,7 @@ class AuthController extends Controller
             ]);
         }
 
-        /** @var User $user */  // ← Add this type hint comment
+        @var User 
         $user = Auth::user();
         $token = $user->createToken('auth-token')->plainTextToken;
 

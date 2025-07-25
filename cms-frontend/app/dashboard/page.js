@@ -21,13 +21,11 @@ export default function DashboardPage() {
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [status, setStatus] = useState('Draft');
     
-    // Filter states
     const [statusFilter, setStatusFilter] = useState('');
     const [categoryFilter, setCategoryFilter] = useState('');
     const [dateFromFilter, setDateFromFilter] = useState('');
     const [dateToFilter, setDateToFilter] = useState('');
 
-    // UI states
     const [articleLoading, setArticleLoading] = useState(false);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
@@ -72,7 +70,6 @@ export default function DashboardPage() {
         }
     }, [user, loading, router]);
 
-    // Refetch articles when filters change
     useEffect(() => {
         if (user) {
             fetchArticles();
@@ -105,19 +102,17 @@ export default function DashboardPage() {
             return;
         }
         
-        // Build article data - only include categories for admins
         const articleData = { 
             title: title.trim(), 
             content: content.trim(), 
             status: status
         };
 
-        // Only add categories if user is admin and has selected categories
         if (user?.role === 'admin' && selectedCategories.length > 0) {
             articleData.category_ids = selectedCategories.map(id => parseInt(id));
         }
 
-        console.log('Submitting article data:', articleData); // Debug log
+        console.log('Submitting article data:', articleData);
 
         try {
             setArticleLoading(true);
@@ -163,7 +158,6 @@ export default function DashboardPage() {
         setContent(article.content);
         setStatus(article.status);
         
-        // Only set categories if user is admin
         if (user?.role === 'admin' && article.categories) {
             setSelectedCategories(article.categories.map(cat => cat.id.toString()));
         }

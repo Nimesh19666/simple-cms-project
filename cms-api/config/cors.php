@@ -15,5 +15,5 @@ return [
 
     'max_age' => 0,
 
-    'supports_credentials' => false, // ← Change this to false since we're using tokens
+    'supports_credentials' => false,
 ];
